@@ -8,8 +8,8 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
 
 /**
- * Title-screen layout. Adds a square GSR button to the vanilla icon row
- * (language / accessibility) and re-centers that row. Does not resize the main menu buttons.
+ * Title-screen layout. Adds a 20x20 GSR square (same size as 26.x) beside the
+ * existing Options/Quit/language/accessibility row without overlapping those buttons.
  */
 public final class GSRTitleScreenLayout {
 
@@ -24,8 +24,8 @@ public final class GSRTitleScreenLayout {
         return button;
     }
 
-    /** Re-center the square icon row after init / refreshWidgetPositions. */
+    /** Park (or re-center, if a compact icon row exists) after init / refreshWidgetPositions. */
     public static void applyRunHistoryLayout(Screen screen) {
-        GSRGameMenuLayout.recenterSquareRow(screen);
+        GSRGameMenuLayout.applySquarePlacement(screen);
     }
 }

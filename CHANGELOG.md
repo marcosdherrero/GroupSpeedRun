@@ -2,7 +2,7 @@
 
 Newest first. Each Minecraft line has its own jar — install the one that matches your game version.
 
-Jars look like `gsr-2.1.0+1.21.11-Minecraft1.21.11.jar` (see `gradle.properties` `mod_version=2.1.0+1.21.11`).
+Jars look like `group_speed_run-2.1.1+1.21.11.jar` (see `gradle.properties` `mod_version=2.1.1+1.21.11`).
 
 ## Minecraft version notes
 
@@ -27,6 +27,16 @@ This branch goes **2.0.0 → 2.1.0**. Intermediate 26.2-only tags (2.0.1–2.0.6
 ---
 
 ## Mod versions
+
+### 2.1.1 (Minecraft 1.21.11)
+
+**For players:**
+
+- The square **GSR** button no longer overlaps Options / Quit (title) or Save and Quit (pause). It stays 20x20 like 26.x and sits beside the existing button row.
+
+**For developers:**
+
+- 1.21.11 title language/accessibility icons are on opposite sides of Options/Quit, not a compact 26.x icon strip. Layout parks GSR next to that row instead of recentering the squares over vanilla buttons. Pause always uses the square control (no Save and Quit split).
 
 ### 2.1.0 (Minecraft 1.21.11)
 

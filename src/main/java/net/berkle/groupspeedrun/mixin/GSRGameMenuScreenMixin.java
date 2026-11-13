@@ -12,8 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.berkle.groupspeedrun.client.GSRGameMenuLayout;
 
 /**
- * Adds a square GSR button to the pause-menu icon row when one exists;
- * otherwise splits Save and Quit | GSR Controls.
+ * Adds a 20x20 GSR button beside the pause-menu row (same size as 26.x).
  */
 @Mixin(GameMenuScreen.class)
 public abstract class GSRGameMenuScreenMixin extends Screen {
@@ -25,17 +24,10 @@ public abstract class GSRGameMenuScreenMixin extends Screen {
     @Inject(method = "init", at = @At("TAIL"))
     private void gsr$onInit(CallbackInfo ci) {
         GameMenuScreen self = (GameMenuScreen) (Object) this;
-        if (GSRGameMenuLayout.hasVanillaSquareRow(self)) {
-            var gsrBtn = GSRGameMenuLayout.createSquareButton(self);
-            if (gsrBtn != null) {
-                addDrawableChild(gsrBtn);
-                GSRGameMenuLayout.reapplySquareLayout(self);
-            }
-        } else {
-            var gsrBtn = GSRGameMenuLayout.applyLayout(self);
-            if (gsrBtn != null) {
-                addDrawableChild(gsrBtn);
-            }
+        var gsrBtn = GSRGameMenuLayout.createSquareButton(self);
+        if (gsrBtn != null) {
+            addDrawableChild(gsrBtn);
+            GSRGameMenuLayout.reapplySquareLayout(self);
         }
     }
 }

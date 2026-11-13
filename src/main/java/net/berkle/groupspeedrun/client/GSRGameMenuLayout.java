@@ -22,8 +22,10 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Pause menu layout. Prefers a square GSR button on the vanilla 20×20 icon row when
- * one exists; otherwise splits Save and Quit | GSR Controls so pause still has a GSR button.
+ * Pause/title layout. Uses a 20x20 GSR square matching 26.x.
+ * On 26.x-style compact icon rows the button is inserted and the row recentered.
+ * On 1.21.11, language/accessibility sit on opposite sides of Options/Quit, so
+ * recentering would overlap those buttons -- the square is parked beside the row instead.
  */
 public final class GSRGameMenuLayout {
 
@@ -32,7 +34,7 @@ public final class GSRGameMenuLayout {
 
     private GSRGameMenuLayout() {}
 
-    /** True when vanilla pause/title has a 16–24px square icon row. */
+    /** True when vanilla pause/title has a 16-24px square icon row. */
     public static boolean hasVanillaSquareRow(net.minecraft.client.gui.screen.Screen screen) {
         return !collectVanillaSquareRow(screen).isEmpty();
     }
@@ -41,6 +43,11 @@ public final class GSRGameMenuLayout {
      * Creates the square GSR button (caller adds it via addDrawableChild, then calls reapplySquareLayout).
      */
     public static ButtonWidget createSquareButton(GameMenuScreen screen) {
+        return createSquareButton((net.minecraft.client.gui.screen.Screen) screen);
+    }
+
+    /** Square GSR button for any screen (title or pause). Caller adds it, then applySquarePlacement. */
+    public static ButtonWidget createSquareButton(net.minecraft.client.gui.screen.Screen screen) {
         ButtonWidget button = new GSRSquareMenuButton(0, 0,
                 GSRButtonParameters.literal(GSRButtonParameters.TITLE_GSR_SQUARE),
                 b -> GSRScreens.openControls(screen));
@@ -57,9 +64,24 @@ public final class GSRGameMenuLayout {
         return gsr.mouseClicked(click, captured);
     }
 
-    /** Re-centers the square icon row after vanilla layout. */
+    /** Place the 20x20 GSR square after vanilla layout. */
     public static void reapplySquareLayout(GameMenuScreen screen) {
-        recenterSquareRow(screen);
+        applySquarePlacement(screen);
+    }
+
+    /**
+     * Compact 26.x icon row: insert GSR and re-center.
+     * Otherwise park the 20x20 button beside the existing row without moving vanilla widgets.
+     */
+    public static void applySquarePlacement(net.minecraft.client.gui.screen.Screen screen) {
+        ClickableWidget gsr = findGsrSquareButton(screen);
+        if (gsr == null) return;
+        List<ClickableWidget> vanilla = collectVanillaSquareRow(screen);
+        if (isCompactSquareRow(vanilla)) {
+            recenterSquareRow(screen);
+            return;
+        }
+        parkBesideExistingRow(screen, gsr);
     }
 
     static void recenterSquareRow(net.minecraft.client.gui.screen.Screen screen) {
@@ -91,8 +113,7 @@ public final class GSRGameMenuLayout {
     }
 
     /**
-     * Applies two-column layout to the exit row. Repositions exit button left; creates and returns GSR Controls button for right column.
-     * Used when the pause menu has no square icon row.
+     * Applies two-column layout to the exit row. Used only if the square button could not be added.
      */
     public static ButtonWidget applyLayout(GameMenuScreen screen) {
         ButtonWidget exitBtn = ((GSRGameMenuScreenAccessor) screen).gsr$getExitButton();
@@ -118,14 +139,113 @@ public final class GSRGameMenuLayout {
 
     /**
      * Re-applies pause layout after refreshWidgetPositions.
-     * Square GSR (if present) is recentered; otherwise Save and Quit | GSR Controls is reapplied.
      */
     public static void reapplyLayout(GameMenuScreen screen) {
         if (findGsrSquareButton(screen) != null) {
-            recenterSquareRow(screen);
+            applySquarePlacement(screen);
             return;
         }
         reapplySplitLayout(screen);
+    }
+
+    private static boolean isCompactSquareRow(List<ClickableWidget> squares) {
+        if (squares.size() < 2) return false;
+        List<ClickableWidget> ordered = squares.stream()
+                .sorted(Comparator.comparingInt(ClickableWidget::getX))
+                .toList();
+        for (int i = 1; i < ordered.size(); i++) {
+            int gap = ordered.get(i).getX() - (ordered.get(i - 1).getX() + ordered.get(i - 1).getWidth());
+            if (gap < 0 || gap > 8) return false;
+        }
+        return true;
+    }
+
+    /** Park GSR to the right of the target row; fall back to the left, then below, if it would clip. */
+    private static void parkBesideExistingRow(net.minecraft.client.gui.screen.Screen screen, ClickableWidget gsr) {
+        int targetY = resolveTargetRowY(screen, gsr);
+        List<ClickableWidget> row = widgetsOnRow(screen, gsr, targetY);
+        if (row.isEmpty()) {
+            row = densestButtonRow(screen, gsr);
+        }
+        if (row.isEmpty()) {
+            gsr.setPosition(Math.max(2, screen.width / 2 - SQUARE_SIZE / 2), Math.max(2, screen.height / 4));
+            gsr.setDimensions(SQUARE_SIZE, SQUARE_SIZE);
+            return;
+        }
+        row.sort(Comparator.comparingInt(ClickableWidget::getX));
+        ClickableWidget leftmost = row.get(0);
+        ClickableWidget rightmost = row.get(row.size() - 1);
+        int y = rightmost.getY() + (rightmost.getHeight() - SQUARE_SIZE) / 2;
+        int x = rightmost.getX() + rightmost.getWidth() + SQUARE_GAP;
+        if (x + SQUARE_SIZE > screen.width - 2) {
+            x = leftmost.getX() - SQUARE_GAP - SQUARE_SIZE;
+        }
+        if (x < 2) {
+            int minX = leftmost.getX();
+            int maxX = rightmost.getX() + rightmost.getWidth();
+            x = Math.max(2, (minX + maxX) / 2 - SQUARE_SIZE / 2);
+            y = rightmost.getY() + rightmost.getHeight() + SQUARE_GAP;
+        }
+        gsr.setPosition(x, y);
+        gsr.setDimensions(SQUARE_SIZE, SQUARE_SIZE);
+    }
+
+    private static int resolveTargetRowY(net.minecraft.client.gui.screen.Screen screen, ClickableWidget gsr) {
+        List<ClickableWidget> vanilla = collectVanillaSquareRow(screen);
+        if (!vanilla.isEmpty()) return vanilla.get(0).getY();
+        if (screen instanceof GameMenuScreen gameMenu) {
+            ButtonWidget exit = ((GSRGameMenuScreenAccessor) gameMenu).gsr$getExitButton();
+            if (exit != null) return exit.getY();
+        }
+        List<ClickableWidget> densest = densestButtonRow(screen, gsr);
+        return densest.isEmpty() ? 0 : densest.get(0).getY();
+    }
+
+    private static List<ClickableWidget> widgetsOnRow(net.minecraft.client.gui.screen.Screen screen, ClickableWidget gsr, int y) {
+        List<ClickableWidget> row = new ArrayList<>();
+        for (ClickableWidget w : collectClickableWidgets(screen)) {
+            if (w == gsr || isIgnoredLayoutWidget(w)) continue;
+            if (w.getY() == y) row.add(w);
+        }
+        return row;
+    }
+
+    private static List<ClickableWidget> densestButtonRow(net.minecraft.client.gui.screen.Screen screen, ClickableWidget gsr) {
+        List<ClickableWidget> candidates = new ArrayList<>();
+        for (ClickableWidget w : collectClickableWidgets(screen)) {
+            if (w == gsr || isIgnoredLayoutWidget(w)) continue;
+            candidates.add(w);
+        }
+        if (candidates.isEmpty()) return candidates;
+        candidates.sort(Comparator.comparingInt(ClickableWidget::getY).thenComparingInt(ClickableWidget::getX));
+        int bestY = candidates.get(0).getY();
+        int bestCount = 0;
+        int currentY = candidates.get(0).getY();
+        int currentCount = 0;
+        for (ClickableWidget w : candidates) {
+            if (w.getY() == currentY) {
+                currentCount++;
+            } else {
+                if (currentCount > bestCount || (currentCount == bestCount && currentY > bestY)) {
+                    bestCount = currentCount;
+                    bestY = currentY;
+                }
+                currentY = w.getY();
+                currentCount = 1;
+            }
+        }
+        if (currentCount > bestCount || (currentCount == bestCount && currentY > bestY)) {
+            bestY = currentY;
+        }
+        List<ClickableWidget> row = new ArrayList<>();
+        for (ClickableWidget w : candidates) {
+            if (w.getY() == bestY) row.add(w);
+        }
+        return row;
+    }
+
+    private static boolean isIgnoredLayoutWidget(ClickableWidget w) {
+        return w.getHeight() <= 12;
     }
 
     private static void reapplySplitLayout(GameMenuScreen screen) {

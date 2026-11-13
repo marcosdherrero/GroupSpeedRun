@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * When TitleScreen opens after "New GSR World" save & quit, and nextGsrWorldName is set,
  * automatically open SelectWorldScreen (which triggers CreateWorldScreen with GSR name prefilled).
- * Adds GSR Controls button via addDrawableChild. GSR Options, Config, and New World are in the Controls screen.
+ * Adds a 20x20 GSR square beside the existing title-screen button row. GSR Options, Config, and New World are in the Controls screen.
  */
 @Mixin(TitleScreen.class)
 public abstract class GSRTitleScreenMixin extends Screen {

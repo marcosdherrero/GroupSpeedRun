@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Re-centers the title-screen square GSR icon row after Screen.refreshWidgetPositions.
+ * Re-applies title/pause square GSR placement after Screen.refreshWidgetPositions.
  * Prefer the square GSR button on pause/title clicks.
  */
 @Mixin(Screen.class)
