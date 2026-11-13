@@ -1,6 +1,6 @@
 package net.berkle.groupspeedrun.parameter;
 
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 /**
  * Parameters for GSR key bindings: translation keys and default key codes.
@@ -22,13 +22,13 @@ public final class GSRKeyBindingParameters {
     public static final String PRESS_TO_SHOW_HUD_KEY = "key.gsr.press_to_show_gsr_hud";
 
     /** Default key: New GSR World. */
-    public static final int DEFAULT_NEW_WORLD = GLFW.GLFW_KEY_N;
+    public static final int DEFAULT_NEW_WORLD = InputConstants.KEY_N;
     /** Default key: Open GSR Options. */
-    public static final int DEFAULT_OPEN_OPTIONS = GLFW.GLFW_KEY_G;
+    public static final int DEFAULT_OPEN_OPTIONS = InputConstants.KEY_G;
     /** Default key: Open GSR Config (used with G held for G+C). */
-    public static final int DEFAULT_OPEN_CONFIG = GLFW.GLFW_KEY_C;
+    public static final int DEFAULT_OPEN_CONFIG = InputConstants.KEY_C;
     /** Default key: Toggle HUD (V). */
-    public static final int DEFAULT_TOGGLE_HUD = GLFW.GLFW_KEY_V;
+    public static final int DEFAULT_TOGGLE_HUD = InputConstants.KEY_V;
     /** Default key: Hold to show HUD (Tab). */
-    public static final int DEFAULT_PRESS_TO_SHOW_HUD = GLFW.GLFW_KEY_TAB;
+    public static final int DEFAULT_PRESS_TO_SHOW_HUD = InputConstants.KEY_TAB;
 }

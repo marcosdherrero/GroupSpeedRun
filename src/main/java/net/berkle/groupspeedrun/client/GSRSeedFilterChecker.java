@@ -8,8 +8,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
+import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.biome.BiomeSource;
-import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
@@ -17,6 +17,7 @@ import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructureSets;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
@@ -74,21 +75,25 @@ public final class GSRSeedFilterChecker {
             HolderLookup<StructureSet> sets = access.lookupOrThrow(Registries.STRUCTURE_SET);
             var noiseParams = access.lookupOrThrow(Registries.NOISE);
 
-            RandomState owRandom = RandomState.create(owNoise.generatorSettings().value(), noiseParams, seed);
-            RandomState netherRandom = RandomState.create(netherNoise.generatorSettings().value(), noiseParams, seed);
+            RandomState owRandom = RandomState.create(noiseParams, seed, owNoise.generatorSettings().value());
+            RandomState netherRandom = RandomState.create(noiseParams, seed, netherNoise.generatorSettings().value());
             ChunkGeneratorStructureState owState = overworld.createState(sets, owRandom, seed);
             ChunkGeneratorStructureState netherState = nether.createState(sets, netherRandom, seed);
+            BiomeResolver owBiomes = overworld.getBiomeSource().createResolver(
+                    owRandom.createClimateSampler(SamplerContext.EMPTY_UNCACHED));
+            BiomeResolver netherBiomes = nether.getBiomeSource().createResolver(
+                    netherRandom.createClimateSampler(SamplerContext.EMPTY_UNCACHED));
 
             Holder<StructureSet> villages = sets.getOrThrow(BuiltinStructureSets.VILLAGES);
             Holder<StructureSet> portals = sets.getOrThrow(BuiltinStructureSets.RUINED_PORTALS);
             Holder<StructureSet> netherComplexes = sets.getOrThrow(BuiltinStructureSets.NETHER_COMPLEXES);
 
             if (!hasMatchingStructure(owState, villages, seed, 0, 0, OVERWORLD_RADIUS_CHUNKS,
-                    OVERWORLD_RADIUS_BLOCKS, overworld.getBiomeSource(), owRandom.sampler())) {
+                    OVERWORLD_RADIUS_BLOCKS, owBiomes)) {
                 return false;
             }
             boolean portal = hasMatchingStructure(owState, portals, seed, 0, 0, OVERWORLD_RADIUS_CHUNKS,
-                    OVERWORLD_RADIUS_BLOCKS, overworld.getBiomeSource(), owRandom.sampler());
+                    OVERWORLD_RADIUS_BLOCKS, owBiomes);
             if (!portal && !hasNearbyLava(owNoise, owRandom)) {
                 return false;
             }
@@ -96,8 +101,7 @@ public final class GSRSeedFilterChecker {
             boolean bastion = false;
             boolean fortress = false;
             for (ChunkPos pos : structureChunks(netherState, netherComplexes, seed, 0, 0, NETHER_SCAN_CHUNKS)) {
-                Holder<Structure> picked = pickStructure(netherComplexes.value(), pos, seed,
-                        nether.getBiomeSource(), netherRandom.sampler());
+                Holder<Structure> picked = pickStructure(netherComplexes.value(), pos, seed, netherBiomes);
                 if (picked == null) continue;
                 double dist = blockDistance(pos, 0, 0);
                 if (picked.is(BuiltinStructures.BASTION_REMNANT) && dist <= BASTION_RADIUS_BLOCKS) {
@@ -122,12 +126,11 @@ public final class GSRSeedFilterChecker {
             int originCz,
             int rangeChunks,
             int maxBlockDist,
-            BiomeSource biomes,
-            Climate.Sampler sampler
+            BiomeResolver biomes
     ) {
         for (ChunkPos pos : structureChunks(state, set, seed, originCx, originCz, rangeChunks)) {
             if (blockDistance(pos, originCx * 16, originCz * 16) > maxBlockDist) continue;
-            if (pickStructure(set.value(), pos, seed, biomes, sampler) != null) return true;
+            if (pickStructure(set.value(), pos, seed, biomes) != null) return true;
         }
         return false;
     }
@@ -165,10 +168,9 @@ public final class GSRSeedFilterChecker {
             StructureSet set,
             ChunkPos pos,
             long seed,
-            BiomeSource biomes,
-            Climate.Sampler sampler
+            BiomeResolver biomes
     ) {
-        var biome = biomes.getNoiseBiome((pos.getMinBlockX() + 8) >> 2, BIOME_QUART_Y, (pos.getMinBlockZ() + 8) >> 2, sampler);
+        var biome = biomes.getNoiseBiome((pos.getMinBlockX() + 8) >> 2, BIOME_QUART_Y, (pos.getMinBlockZ() + 8) >> 2);
         List<StructureSet.StructureSelectionEntry> valid = new ArrayList<>();
         for (StructureSet.StructureSelectionEntry entry : set.structures()) {
             if (entry.structure().value().biomes().contains(biome)) {

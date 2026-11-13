@@ -10,7 +10,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 // Fabric: minecraft networking
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -1069,7 +1069,7 @@ public final class GSRPreferencesScreen extends Screen {
             return true;
         }
 
-        if (click.button() != GLFW.GLFW_MOUSE_BUTTON_LEFT) return super.mouseClicked(click, captured);
+        if (click.button() != InputConstants.MOUSE_BUTTON_LEFT) return super.mouseClicked(click, captured);
 
         // Footer widgets first (26.2 captured = double-click, not "already handled")
         int footerY = GSRMenuComponents.footerLayout(width, height).footerY();
@@ -1200,7 +1200,7 @@ public final class GSRPreferencesScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent keyInput) {
-        if (keyInput.key() == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyInput.key() == InputConstants.KEY_ESCAPE) {
             if (model.openDropdownId != GSRPreferencesScreenModel.DROPDOWN_NONE) {
                 model.openDropdownId = GSRPreferencesScreenModel.DROPDOWN_NONE;
                 return true;

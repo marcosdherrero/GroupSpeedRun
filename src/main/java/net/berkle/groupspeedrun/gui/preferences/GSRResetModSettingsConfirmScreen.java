@@ -7,7 +7,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 // Fabric: minecraft networking
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -109,7 +109,7 @@ public class GSRResetModSettingsConfirmScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent keyInput) {
-        if (keyInput.key() == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyInput.key() == InputConstants.KEY_ESCAPE) {
             cancel();
             return true;
         }

@@ -12,7 +12,7 @@ import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import net.minecraft.client.gui.screens.worldselection.WorldCreationUiState;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.input.KeyEvent;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
 public abstract class GSRCreateWorldScreenMixin extends Screen {
 
     private static final int WORLD_NAME_MAX_LENGTH = 32;
-    private static final int GLFW_MOD_CONTROL = 0x0002;
+    private static final int MOD_CONTROL = InputConstants.MOD_CONTROL;
 
     @Shadow @Final private WorldCreationUiState uiState;
 
@@ -98,10 +98,10 @@ public abstract class GSRCreateWorldScreenMixin extends Screen {
             mc.keyboardHandler.setClipboard(name);
             screen.setFocused(field);
             // Simulate Ctrl+A (select all)
-            KeyEvent ctrlA = new KeyEvent(GLFW.GLFW_KEY_A, 0, GLFW_MOD_CONTROL);
+            KeyEvent ctrlA = new KeyEvent(InputConstants.KEY_A, 0, MOD_CONTROL);
             screen.keyPressed(ctrlA);
             // Simulate Ctrl+V (paste) - uses clipboard we just set
-            KeyEvent ctrlV = new KeyEvent(GLFW.GLFW_KEY_V, 0, GLFW_MOD_CONTROL);
+            KeyEvent ctrlV = new KeyEvent(InputConstants.KEY_V, 0, MOD_CONTROL);
             screen.keyPressed(ctrlV);
             // Direct setText as fallback (paste may be handled by Keyboard before Screen)
             field.setValue(name);

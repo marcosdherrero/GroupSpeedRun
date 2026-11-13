@@ -14,7 +14,7 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.levelgen.WorldOptions;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +71,7 @@ public final class GSRSeedFilter {
 
     public static boolean handleKey(Screen screen, KeyEvent key) {
         if (!isSearching() || !(screen instanceof CreateWorldScreen)) return false;
-        if (key.key() == GLFW.GLFW_KEY_ESCAPE) {
+        if (key.key() == InputConstants.KEY_ESCAPE) {
             cancel();
             return true;
         }

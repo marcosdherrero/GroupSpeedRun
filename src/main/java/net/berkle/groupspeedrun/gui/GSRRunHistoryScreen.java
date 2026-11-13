@@ -30,7 +30,7 @@ import net.berkle.groupspeedrun.parameter.GSRUiParameters;
 import net.berkle.groupspeedrun.util.GSRScrollbarHelper;
 
 // LWJGL: key codes
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 // Java: time, collections
 import java.time.Instant;
@@ -526,7 +526,7 @@ public class GSRRunHistoryScreen extends Screen {
             }
 
             int trackX = overlayLeft + overlayWidth;
-            if (GSRScrollbarHelper.isInScrollbarHitArea((int) mouseX, trackX, sbWidth) && click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT && dropdownOpen) {
+            if (GSRScrollbarHelper.isInScrollbarHitArea((int) mouseX, trackX, sbWidth) && click.button() == InputConstants.MOUSE_BUTTON_LEFT && dropdownOpen) {
                 if (model.filterDropdownOpen && !model.allPlayerNames.isEmpty()) {
                     var geom = GSRMultiSelectDropdown.computeGeometry(font, leftColumn.getFilterDropdown().getHeader(), overlayLeft, listTop, listBottom, overlayWidth, leftColumn.getFilterDropdown().getItemCount(model));
                     int listAreaBottom = geom.listBottom();
@@ -843,7 +843,7 @@ public class GSRRunHistoryScreen extends Screen {
 
         if (model.selectedRun != null) {
             // Delete Run button (Run Info tab only; not for "current" run)
-            if (model.selectedTab == GSRRunHistoryParameters.TAB_RUN_INFO && click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+            if (model.selectedTab == GSRRunHistoryParameters.TAB_RUN_INFO && click.button() == InputConstants.MOUSE_BUTTON_LEFT) {
                 int detailContentTop = detailTop + GSRRunHistoryParameters.TAB_HEIGHT + GSRRunHistoryParameters.CONTENT_PADDING;
                 int detailContentBottom = detailBottom - GSRRunHistoryParameters.DETAIL_PANEL_BOTTOM_PADDING;
                 int detailContentLeft = rightPanelLeft + GSRRunHistoryParameters.CONTENT_PADDING;
@@ -858,7 +858,7 @@ public class GSRRunHistoryScreen extends Screen {
                 }
             }
             // Detail panel scrollbar (Run Info tab only)
-            if (model.selectedTab == GSRRunHistoryParameters.TAB_RUN_INFO && click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+            if (model.selectedTab == GSRRunHistoryParameters.TAB_RUN_INFO && click.button() == InputConstants.MOUSE_BUTTON_LEFT) {
                 int detailContentTop = detailTop + GSRRunHistoryParameters.TAB_HEIGHT + GSRRunHistoryParameters.CONTENT_PADDING;
                 int detailContentBottom = detailBottom - GSRRunHistoryParameters.DETAIL_PANEL_BOTTOM_PADDING;
                 int detailContentLeft = rightPanelLeft + GSRRunHistoryParameters.CONTENT_PADDING;
@@ -879,7 +879,7 @@ public class GSRRunHistoryScreen extends Screen {
             // Chart horizontal scrollbar (Run Graphs tab, All time view only)
             if (model.selectedTab == GSRRunHistoryParameters.TAB_RUN_GRAPHS
                     && GSRRunHistoryLeftColumn.getViewModeForDisplayIndex(model.selectedChartViewIndex) == 2
-                    && click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                    && click.button() == InputConstants.MOUSE_BUTTON_LEFT) {
                 List<GSRRunSaveState> runsForChart = model.getRunsForRunGraphs();
                 int detailContentTop = detailTop + GSRRunHistoryParameters.TAB_HEIGHT + GSRRunHistoryParameters.CONTENT_PADDING;
                 int detailContentBottom = detailBottom - GSRRunHistoryParameters.DETAIL_PANEL_BOTTOM_PADDING;
@@ -1165,7 +1165,7 @@ public class GSRRunHistoryScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent keyInput) {
-        if (keyInput.key() == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyInput.key() == InputConstants.KEY_ESCAPE) {
             goBack();
             return true;
         }

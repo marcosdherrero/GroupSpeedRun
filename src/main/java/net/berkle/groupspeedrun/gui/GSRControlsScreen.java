@@ -9,7 +9,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.input.KeyEvent;
 // LWJGL: key codes
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 // GSR: minecraft state, config, network, parameters, HUD renderer, key bindings
 import net.berkle.groupspeedrun.GSRClient;
@@ -171,7 +171,7 @@ public class GSRControlsScreen extends GSRBaseScreen {
 
     @Override
     public boolean keyPressed(KeyEvent keyInput) {
-        if (keyInput.key() == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyInput.key() == InputConstants.KEY_ESCAPE) {
             goBack();
             return true;
         }

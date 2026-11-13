@@ -2,19 +2,20 @@
 
 Newest first. Each Minecraft line has its own jar — install the one that matches your game version.
 
-Jars look like `gsr-2.1.0+26.2-Minecraft26.2.jar`. GitHub tags look like `v2.1.0-mc26.2`.
+Jars look like `gsr-2.1.0+26.3-Minecraft26.3.jar`. GitHub tags look like `v2.1.0-mc26.3`.
 
 ## Minecraft version notes
 
-GSR 2.1.0 ships on three Minecraft lines. Features are meant to match; the code underneath had to change because Mojang renamed APIs and rewrote menus.
+GSR 2.1.0 ships on four Minecraft lines. Features are meant to match; the code underneath had to change because Mojang renamed APIs and rewrote menus.
 
 **For players / pack makers:**
 
 - **1.21.11** — original GSR 2.0 line. Yarn mappings, Java 21, Fabric Loader 0.18.4, Fabric API `0.141.2+1.21.11`, Cloth Config `21.11.153`.
 - **26.1.2** — first official-mappings port. Java 25, Fabric Loader 0.19.2, Fabric API `0.149.0+26.1.2`, Cloth Config `26.1.154`.
-- **26.2** — this branch. Java 25, Fabric Loader 0.19.3, Fabric API `0.157.0+26.2`, Cloth Config `26.2.155`. Pause/title icon rows are a vanilla 26.2 layout, which is why the square **GSR** button exists here.
+- **26.2** — Java 25, Fabric Loader 0.19.3, Fabric API `0.157.0+26.2`, Cloth Config `26.2.155`. Pause/title icon rows are a vanilla 26.2 layout, which is why the square **GSR** button exists here.
+- **26.3** — this branch. Java 25, Fabric Loader 0.19.5, Fabric API `0.163.0+26.3`, Cloth Config `26.3.159`, Mod Menu `21.0.0`.
 
-Pick the jar whose Minecraft number matches the instance. A 26.2 jar will not load on 26.1.2 or 1.21.11.
+Pick the jar whose Minecraft number matches the instance. A 26.3 jar will not load on 26.2, 26.1.2, or 1.21.11.
 
 **For developers (code / API):**
 
@@ -25,6 +26,12 @@ Pick the jar whose Minecraft number matches the instance. A 26.2 jar will not lo
 ---
 
 ## Mod versions
+
+### 2.1.0 (Minecraft 26.3)
+
+jar `gsr-2.1.0+26.3-Minecraft26.3.jar`
+
+Same 2.1.0 features as 26.2, retargeted to Minecraft 26.3 (Fabric API `0.163.0+26.3`, Cloth Config `26.3.159`, Mod Menu `21.0.0`).
 
 ### 2.1.0 (Minecraft 26.2)
 

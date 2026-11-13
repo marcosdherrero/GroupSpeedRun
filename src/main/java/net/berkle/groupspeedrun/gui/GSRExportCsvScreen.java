@@ -31,7 +31,7 @@ import net.berkle.groupspeedrun.util.GSRScrollbarHelper;
 import net.berkle.groupspeedrun.util.GSRStatusText;
 
 // GLFW key codes
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -466,7 +466,7 @@ public class GSRExportCsvScreen extends Screen {
                 return true;
             }
             int trackX = overlayLeft + overlayWidth - sbWidth;
-            if (GSRScrollbarHelper.isInScrollbarHitArea((int) mouseX, trackX, sbWidth) && click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT && dropdownOpen) {
+            if (GSRScrollbarHelper.isInScrollbarHitArea((int) mouseX, trackX, sbWidth) && click.button() == InputConstants.MOUSE_BUTTON_LEFT && dropdownOpen) {
                 if (model.filterDropdownOpen && !model.allPlayerNames.isEmpty()) {
                     var geom = GSRMultiSelectDropdown.computeGeometry(font, filterDropdown.getHeader(), overlayLeft, listTop, listBottom, overlayWidth, filterDropdown.getItemCount(model));
                     int listAreaBottom = geom.listBottom();
@@ -642,7 +642,7 @@ public class GSRExportCsvScreen extends Screen {
         int detailContentBottom = rightPanelBottom - GSRRunHistoryParameters.DETAIL_PANEL_BOTTOM_PADDING;
         int contentHeight = detailContentBottom - detailContentTop;
         List<GSRRunSaveState> runsToShow = getRunsForExportPreview();
-        if (!runsToShow.isEmpty() && click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+        if (!runsToShow.isEmpty() && click.button() == InputConstants.MOUSE_BUTTON_LEFT) {
             String avgText = GSRStatusText.buildAverageRunInfo(runsToShow);
             int runInfoContentHeight = GSRRunHistoryDetailPanel.computeRunInfoContentHeightFromText(avgText);
             int maxDetailScroll = Math.max(0, runInfoContentHeight - contentHeight + GSRRunHistoryParameters.BOTTOM_SCROLL_PADDING);
@@ -843,7 +843,7 @@ public class GSRExportCsvScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent keyInput) {
-        if (keyInput.key() == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyInput.key() == InputConstants.KEY_ESCAPE) {
             cancel();
             return true;
         }

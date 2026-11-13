@@ -3,7 +3,7 @@
   "id": "gsr",
   "version": "${version}",
   "name": "Group Speed Run",
-  "description": "A Mod to connect players on a speed run. Targets Minecraft Java 26.2.",
+  "description": "A Mod to connect players on a speed run. Targets Minecraft Java 26.3.",
   "authors": ["Berkle"],
   "license": "MIT",
   "icon": "assets/gsr/gsr_icon.png",
@@ -15,8 +15,8 @@
   },
   "mixins": ["gsrmixins.json"],
     "depends": {
-    "fabricloader": ">=0.19.3",
-    "minecraft": "~26.2",
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
     "java": ">=25",
     "fabric-api": "*",
     "cloth-config": "*"

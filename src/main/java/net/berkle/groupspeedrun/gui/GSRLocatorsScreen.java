@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.util.Mth;
 // LWJGL: key codes
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 // GSR: minecraft state, config, network, parameters, UI helpers
 import net.berkle.groupspeedrun.GSRClient;
@@ -239,7 +239,7 @@ public class GSRLocatorsScreen extends Screen {
 
     @Override
     public boolean mouseClicked(MouseButtonEvent click, boolean captured) {
-        if (click.button() != GLFW.GLFW_MOUSE_BUTTON_LEFT) return super.mouseClicked(click, captured);
+        if (click.button() != InputConstants.MOUSE_BUTTON_LEFT) return super.mouseClicked(click, captured);
         int mx = (int) click.x();
         int my = (int) click.y();
         long now = System.currentTimeMillis();
@@ -335,7 +335,7 @@ public class GSRLocatorsScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent keyInput) {
-        if (keyInput.key() == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyInput.key() == InputConstants.KEY_ESCAPE) {
             goBack();
             return true;
         }

@@ -52,7 +52,7 @@
 
 ## Changelog
 
-What changed in each GSR version (player notes plus a short developer/API subsection), including the Minecraft 1.21.11 → 26.1.2 → 26.2 ports, is in [CHANGELOG.md](CHANGELOG.md).
+What changed in each GSR version (player notes plus a short developer/API subsection), including the Minecraft 1.21.11 → 26.1.2 → 26.2 → 26.3 ports, is in [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
@@ -100,11 +100,11 @@ What changed in each GSR version (player notes plus a short developer/API subsec
 
 | Dependency | Version |
 |------------|---------|
-| Minecraft | 1.21.11 |
-| Java | 21+ |
-| Fabric Loader | 0.18.4+ |
-| Fabric API | 0.141.2+1.21.11 |
-| Cloth Config | 21.11.153+ |
+| Minecraft | 26.3 |
+| Java | 25+ |
+| Fabric Loader | 0.19.5+ |
+| Fabric API | 0.163.0+26.3 |
+| Cloth Config | 26.3.159 |
 
 **Optional:** Mod Menu (`com.terraformersmc:modmenu:17.0.0-beta.1`) for in-game mod configuration.
 
@@ -112,7 +112,7 @@ What changed in each GSR version (player notes plus a short developer/API subsec
 
 ## Installation
 
-1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft 1.21.11.
+1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft 26.3.
 2. Place these jars in your `mods` folder:
    - GSR mod jar
    - [Fabric API](https://modrinth.com/mod/fabric-api)

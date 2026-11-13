@@ -104,7 +104,7 @@ public final class GSRLocateHelper {
 
         try {
             StructureStart atPlayer = endCityStructure != null
-                    ? accessor.getStructureWithPieceAt(from, endCityStructure)
+                    ? accessor.getStructureWithPieceAt(from.getX(), from.getY(), from.getZ(), endCityStructure)
                     : accessor.getStructureWithPieceAt(from, endCityTag);
             if (isUsableStart(atPlayer)) {
                 BlockPos shipPos = extractShipPosition(atPlayer);
@@ -120,7 +120,7 @@ public final class GSRLocateHelper {
             if (firstCity != null) {
                 world.getChunk(firstCity.getX() >> 4, firstCity.getZ() >> 4);
                 StructureStart start = endCityStructure != null
-                        ? accessor.getStructureWithPieceAt(firstCity, endCityStructure)
+                        ? accessor.getStructureWithPieceAt(firstCity.getX(), firstCity.getY(), firstCity.getZ(), endCityStructure)
                         : accessor.getStructureWithPieceAt(firstCity, endCityTag);
                 if (isUsableStart(start)) {
                     BlockPos shipPos = extractShipPosition(start);
@@ -161,9 +161,9 @@ public final class GSRLocateHelper {
                 List<StructureStart> starts;
                 try {
                     if (endCityStructure != null) {
-                        starts = accessor.startsForStructure(chunkPos, structure -> structure == endCityStructure);
+                        starts = accessor.startsForStructure(chunkPos.x(), chunkPos.z(), structure -> structure == endCityStructure);
                     } else {
-                        starts = accessor.startsForStructure(chunkPos, structure -> true);
+                        starts = accessor.startsForStructure(chunkPos.x(), chunkPos.z(), structure -> true);
                     }
                 } catch (Exception e) {
                     continue;

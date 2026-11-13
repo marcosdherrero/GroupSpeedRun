@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.berkle.groupspeedrun.network.GSRRunActionPayload;
 import net.berkle.groupspeedrun.parameter.GSRButtonParameters;
 import net.berkle.groupspeedrun.parameter.GSRUiParameters;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 /**
  * Confirmation popup before Reset Run: wipes run data, teleports players to spawn, restores from snapshot.
@@ -67,7 +67,7 @@ public class GSRResetConfirmScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent keyInput) {
-        if (keyInput.key() == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyInput.key() == InputConstants.KEY_ESCAPE) {
             cancel();
             return true;
         }

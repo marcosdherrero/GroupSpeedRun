@@ -12,7 +12,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 
 // LWJGL: key codes
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 // GSR: minecraft state, gui components, network, parameters, util
 import net.berkle.groupspeedrun.GSRClient;
@@ -184,7 +184,7 @@ public class GSRRunManagerScreen extends Screen {
 
     @Override
     public boolean mouseClicked(MouseButtonEvent click, boolean captured) {
-        if (click.button() != GLFW.GLFW_MOUSE_BUTTON_LEFT) return super.mouseClicked(click, captured);
+        if (click.button() != InputConstants.MOUSE_BUTTON_LEFT) return super.mouseClicked(click, captured);
 
         int mouseX = (int) click.x();
         int mouseY = (int) click.y();
@@ -339,7 +339,7 @@ public class GSRRunManagerScreen extends Screen {
 
     @Override
     public boolean keyPressed(net.minecraft.client.input.KeyEvent keyInput) {
-        if (keyInput.key() == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyInput.key() == InputConstants.KEY_ESCAPE) {
             if (model.deathDropdownOpen || model.healthDropdownOpen) {
                 model.deathDropdownOpen = false;
                 model.healthDropdownOpen = false;

@@ -32,31 +32,31 @@ public final class GSRKeyBindings {
     public static void register() {
         newGsrWorldKey = new KeyMapping(
                 NEW_WORLD_KEY,
-                InputConstants.Type.KEYSYM,
+                InputConstants.Type.KEYBOARD,
                 GSRKeyBindingParameters.DEFAULT_NEW_WORLD,
                 GSR_CATEGORY
         );
         openGsrOptionsKey = new KeyMapping(
                 OPEN_OPTIONS_KEY,
-                InputConstants.Type.KEYSYM,
+                InputConstants.Type.KEYBOARD,
                 GSRKeyBindingParameters.DEFAULT_OPEN_OPTIONS,
                 GSR_CATEGORY
         );
         openGsrConfigKey = new KeyMapping(
                 OPEN_CONFIG_KEY,
-                InputConstants.Type.KEYSYM,
+                InputConstants.Type.KEYBOARD,
                 GSRKeyBindingParameters.DEFAULT_OPEN_CONFIG,
                 GSR_CATEGORY
         );
         toggleGsrHudKey = new KeyMapping(
                 TOGGLE_HUD_KEY,
-                InputConstants.Type.KEYSYM,
+                InputConstants.Type.KEYBOARD,
                 GSRKeyBindingParameters.DEFAULT_TOGGLE_HUD,
                 GSR_CATEGORY
         );
         pressToShowGsrHudKey = new KeyMapping(
                 PRESS_TO_SHOW_HUD_KEY,
-                InputConstants.Type.KEYSYM,
+                InputConstants.Type.KEYBOARD,
                 GSRKeyBindingParameters.DEFAULT_PRESS_TO_SHOW_HUD,
                 GSR_CATEGORY
         );
