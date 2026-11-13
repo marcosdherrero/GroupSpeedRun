@@ -18,6 +18,7 @@ public class GSRTitleScreenButton extends ButtonWidget.Text {
 
     @Override
     protected void drawIcon(DrawContext context, int mouseX, int mouseY, float delta) {
+        drawButton(context);
         if (getAlpha() <= 0.01f) return;
         drawLabelWithPaddingAndScale(context);
     }

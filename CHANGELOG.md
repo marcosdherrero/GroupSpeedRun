@@ -2,7 +2,7 @@
 
 Newest first. Each Minecraft line has its own jar — install the one that matches your game version.
 
-Jars look like `group_speed_run-2.1.1+1.21.11.jar` (see `gradle.properties` `mod_version=2.1.1+1.21.11`).
+Jars look like `group_speed_run-2.1.2+1.21.11.jar` (see `gradle.properties` `mod_version=2.1.2+1.21.11`).
 
 ## Minecraft version notes
 
@@ -27,6 +27,16 @@ This branch goes **2.0.0 → 2.1.0**. Intermediate 26.2-only tags (2.0.1–2.0.6
 ---
 
 ## Mod versions
+
+### 2.1.2 (Minecraft 1.21.11)
+
+**For players:**
+
+- The 20×20 **GSR** button now has the vanilla icon-button plate behind the letters, matching 26.x.
+
+**For developers:**
+
+- 1.21.11 `PressableWidget.renderWidget` only calls `drawIcon`. Vanilla `ButtonWidget.Text` draws `widget/button` via `drawButton`; GSR's square (and other `ButtonWidget.Text` subclasses) now call that before the label, same as 26.x `extractDefaultSprite`.
 
 ### 2.1.1 (Minecraft 1.21.11)
 

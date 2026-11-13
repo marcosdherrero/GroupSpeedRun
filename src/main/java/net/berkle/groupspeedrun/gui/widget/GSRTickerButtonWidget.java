@@ -24,6 +24,7 @@ public class GSRTickerButtonWidget extends ButtonWidget.Text {
 
     @Override
     protected void drawIcon(DrawContext context, int mouseX, int mouseY, float delta) {
+        drawButton(context);
         var textRenderer = MinecraftClient.getInstance().textRenderer;
         String label = getMessage().getString();
         int margin = GSRRunHistoryParameters.BUTTON_TICKER_MARGIN;

@@ -20,6 +20,7 @@ public class GSRSquareMenuButton extends ButtonWidget.Text {
 
     @Override
     protected void drawIcon(DrawContext context, int mouseX, int mouseY, float delta) {
+        drawButton(context);
         float fade = getAlpha();
         if (fade <= 0.01f) return;
         TextRenderer font = MinecraftClient.getInstance().textRenderer;
